@@ -1,5 +1,6 @@
 # AnalogSignalHandler
-A simple yet powerful Analog Signal handler for Arduino.
+A simple yet powerful Analog Signal handler for Arduino ATMega2560.
+Should also work on many other
 Could also be adapter to other micro controllers.
 
 # Features
