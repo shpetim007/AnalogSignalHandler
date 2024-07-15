@@ -1,7 +1,7 @@
 # AnalogSignalHandler
 A simple yet powerful Analog Signal handler for Arduino ATMega2560.
-Should also work on many other
-Could also be adapter to other micro controllers.
+Will also work on other Arduino boards, and ATMega microcontrollers.
+Can also be adapted to other micro controllers. Let me know if you do!
 
 # Features
 Full signal manipulation: scaling, offset, gain.
@@ -23,22 +23,22 @@ The general consensus is that this resolution is low. I challange that becasue; 
 
 Thus both an Arduino (AT MEGA2560) and Siemens LOGO! can read 1/1000ths of a volt, i.e. 3.670V.
 
-However it's not good practice to make use of that fine of a resolution. This is because of noise and many other aspects that affect the reliability of the analog signal.
+However it's not good practice to rely on that fine of a resolution. This is because of noise and many other aspects that affect the reliability of the analog signal.
 
-Additionally, your chosen sensor will have it's performance charactaristics; accuracy, non-linearity, hystersis and others.
+Additionally, your chosen sensor will have it's own performance charactaristics; accuracy, non-linearity, hystersis and others.
 
 The ADC performance should compliment the sensors capability. A high end ADC (from a high end PLC) will not give you a more precise signal if you use a low performance sensor or if you use the wrong sensor range. Example:
 
-High End 0-5,000psi sensor with +/-0.25% accuracy = +/-12.5psi.
-Low end 0-100psi sensor with +/-1% accuracy = +/- 1psi.
+0-5,000psi high end sensor with +/-0.25% accuracy = +/-12.5psi.
+0-100psi low end sensor with +/-1% accuracy = +/- 1psi.
 
-Wether using a high end PLC or Arduino ATMega2560, the signal accuracy will be the same.
+Wether using an expensive PLC or Arduino boards, the signal accuracy will depend on your chosen sensor. 
 
-Short answer is that we have 0-5V and an internal value between 0-1023.
+Short answer is that we have 0-5V analog input and an internal value between 0-1023.
 
 ## Signal Conversion
 
-The example code uses two pressure transmitters, PT1 and PT2. However any other analog signals can be handled by this same code.
+The example code uses two pressure transmitters, PT1 and PT2. Any other analog signals can be handled by this same code.
 
 To make the signal readable/usable, we must apply Scaling, Offset and Gain.
 Note that these are defined variables in the code, they are not the same as the internal paramaters of the microcontroller.
@@ -48,13 +48,11 @@ Note that these are defined variables in the code, they are not the same as the 
 Scaling is rather misleading term. The simple explanation is the maximum real value of your sensor.
 Example, a pressure sensor rated from 0-150psi or VFD analog output for motor current, max 24Amps.
 To scale either of those analog signals, input their max value in Scaling.
-Scaling is the mx in y = mx+b.
 
 ### Offset 
 
 Offset is how you can shift (offset) an analog signal up or down. Another term is "zeroing" the sensor.
 Example, when creating a diaphram isolated sensor, the isolation fluid will extert some pressure in the sensor (unless you have expensive tools). You can compensate for this by including a negative offset to account for the diaphragm fluid pressure.
-Offset is the +/-b in y=mx+b.
 
 ### Gain
 
@@ -63,11 +61,15 @@ Gain is a simple value used to increase or decease a the final output. It's typi
 ### Final Value
 
 After applying all three values, you are left with a final usable value of your sensor. Call this (and only this) value for the remainder of your your code.
-In PLC terms, this is the Engineering Units. 
+In PLC terms, this is the Engineering Units.
 
 ### The Code
 main.ino shows how to implement this library into your code.
-AnalogSignalHandler.c
+AnalogSignalHandler.cpp handles the math.
+AnalogSignalHander.h holds all the variables/objects.
+
+Typically you should need to modify the two handler files unless your ADC bits are different (if so change the 1023 to match your controller)
+
 
 More Reading:
 
